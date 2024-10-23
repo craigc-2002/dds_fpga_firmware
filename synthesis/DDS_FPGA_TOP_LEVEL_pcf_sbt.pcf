@@ -1,0 +1,26 @@
+# ##############################################################################
+
+# iCEcube PCF
+
+# Version:            2020.12.27943
+
+# File Generated:     Oct 23 2024 16:15:11
+
+# Family & Device:    iCE40HX8K
+
+# Package:            CB132
+
+# ##############################################################################
+
+###IOSet List 10
+set_io LED_OUT[3] K14
+set_io LED_OUT[7] N14
+set_io CLK P7
+set_io LED_OUT[0] J11
+set_io LED_OUT[2] K12
+set_io LED_OUT[4] L12
+set_io LED_OUT[6] M12
+set_io LED_OUT[1] K11
+set_io LED_OUT[5] L14
+set_io NRST P8
+
