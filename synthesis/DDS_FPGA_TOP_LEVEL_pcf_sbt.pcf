@@ -4,7 +4,7 @@
 
 # Version:            2020.12.27943
 
-# File Generated:     Oct 23 2024 16:15:11
+# File Generated:     Nov 13 2024 10:32:33
 
 # Family & Device:    iCE40HX8K
 
@@ -12,15 +12,32 @@
 
 # ##############################################################################
 
-###IOSet List 10
-set_io LED_OUT[3] K14
+###IOSet List 27
+set_io DAC_OUT[15] A4
+set_io DAC_OUT[5] G3
 set_io LED_OUT[7] N14
 set_io CLK P7
-set_io LED_OUT[0] J11
-set_io LED_OUT[2] K12
-set_io LED_OUT[4] L12
+set_io DAC_OUT[14] A3
+set_io DAC_OUT[6] E1
 set_io LED_OUT[6] M12
-set_io LED_OUT[1] K11
+set_io DAC_OUT[7] D1
 set_io LED_OUT[5] L14
+set_io DAC_CLK_OUT G1
+set_io DAC_OUT[0] M1
+set_io DAC_OUT[12] A1
+set_io DAC_OUT[4] G4
+set_io DAC_OUT[8] C1
+set_io LED_OUT[0] J11
+set_io LED_OUT[4] L12
+set_io DAC_OUT[1] L1
+set_io DAC_OUT[11] C3
+set_io DAC_OUT[9] B1
+set_io LED_OUT[3] K14
+set_io DAC_OUT[10] D3
+set_io DAC_OUT[2] J1
+set_io LED_OUT[2] K12
+set_io DAC_OUT[13] A2
+set_io DAC_OUT[3] J3
+set_io LED_OUT[1] K11
 set_io NRST P8
 

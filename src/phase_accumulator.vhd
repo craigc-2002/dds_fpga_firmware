@@ -1,7 +1,7 @@
 -- ==================================================
 -- File: phase_accumulator.vhd
 -- Author: Craig Cochrane
--- Date: October 2025
+-- Date: October 2024
 -- --------------------------------------------------
 -- DDS PHASE ACCUMULATOR
 --
