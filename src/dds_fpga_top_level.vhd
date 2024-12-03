@@ -6,10 +6,9 @@
 -- TOP LEVEL ENTITY FOR DDS FPGA
 --
 -- Initial test setup where the phase accumulator value is converted to a sine value simply using a lookup table
--- The top 8 bits of the sine value are sent to the LEDs on the iCE40 dev board to allow the wave to be visualised
--- The full 16 bits are output to the DAC
+-- The 16 bit output is sent to the DAC over a parallel bus with a clock
 -- A DAC clock is generated with a PLL
--- The phase accumulator is set up with a constant phase increment value to give a 1 Hz output
+-- The phase accumulator is set up with a constant phase increment value to give a ~1 MHz output
 --
 -- DAC clock is created by a PLL to set it 90 degrees out of phase from the FPGA clock
 -- This ensures that the DAC clock and data timing requirements from the datasheet are met:
@@ -42,8 +41,17 @@ architecture RTL of DDS_FPGA_TOP_LEVEL is
 	signal PHASE : std_logic_vector(31 downto 0) := (others=>'0');
 	signal DATA  : std_logic_vector(15 downto 0) := (others=>'0');  
 	
-	-- hardcoded phase increment value of 43 to give 1 Hz sine wave output with 100 MHz clock input
-	constant PHASE_INCREMENT : unsigned(31 downto 0) := to_unsigned(43, 32);
+	-- Hardcoded phase increment value to give a set output frequency with 100 MHz clock
+	-- Phase Intrement Values:
+	--		1 Hz    : 43
+	--		10 Hz   : 429
+	-- 		100 Hz  : 4295
+	-- 		1 kHz   : 42950
+	--		10 kHz  : 429597
+	--		100 kHz : 4294967
+	-- 		1 MHz   : 42949673
+	-- 		1.07 MHz: 46137385 (should produce spurs at 1 kHz from carrier)
+	constant PHASE_INCREMENT : unsigned(31 downto 0) := to_unsigned(46137385, 32);
   
 begin
 
@@ -92,7 +100,7 @@ begin
 	-- Also output top 8 bits to LEDs
 	-- --------------------------------------------------
 	DAC_OUT <= DATA when RST = '0' else X"0000";
-	LED_OUT <= DATA(15 downto 8) when RST = '0' else X"00";
+	LED_OUT <= X"00";
 	
 	-- --------------------------------------------------
 	-- ASYCHRONOUS ASSIGNMENTS
