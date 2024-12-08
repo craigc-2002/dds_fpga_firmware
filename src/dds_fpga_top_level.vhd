@@ -25,11 +25,11 @@ use ieee.numeric_std.all;
 entity DDS_FPGA_TOP_LEVEL is
   port
   (
-    CLK  : in std_logic;
-    NRST : in std_logic;
+	CLK  : in std_logic;
+	NRST : in std_logic;
 	
 	DAC_CLK_OUT : out std_logic;
-    LED_OUT   : out std_logic_vector(7 downto 0);  -- outputs to the 8 LEDs on the Alchitry Cu board
+	LED_OUT   : out std_logic_vector(7 downto 0);  -- outputs to the 8 LEDs on the Alchitry Cu board
 	DAC_OUT   : out std_logic_vector(15 downto 0) -- outputs to the DAC parallel data outputs
   );
 end entity;
@@ -39,7 +39,7 @@ architecture RTL of DDS_FPGA_TOP_LEVEL is
 	signal RST : std_logic;
 	signal DAC_CLK : std_logic;
 	signal PHASE : std_logic_vector(31 downto 0) := (others=>'0');
-	signal DATA  : std_logic_vector(15 downto 0) := (others=>'0');  
+	signal AMPLITUDE  : std_logic_vector(15 downto 0) := (others=>'0');  
 	
 	-- Hardcoded phase increment value to give a set output frequency with 100 MHz clock
 	-- Phase Intrement Values:
@@ -50,7 +50,8 @@ architecture RTL of DDS_FPGA_TOP_LEVEL is
 	--		10 kHz  : 429597
 	--		100 kHz : 4294967
 	-- 		1 MHz   : 42949673
-	-- 		1.07 MHz: 46137385 (should produce spurs at 1 kHz from carrier)
+	-- 		1.07 MHz: 46137385 (should produce spurs at 1 kHz from carrier with no interpolation)
+	--		1.07 MHz: 46137345 (should produce spurs at 1.5 MHz from carrier with interpolation)
 	constant PHASE_INCREMENT : unsigned(31 downto 0) := to_unsigned(46137385, 32);
   
 begin
@@ -70,14 +71,14 @@ begin
 	);
 	
 	-- --------------------------------------------------
-	-- INSTANTIATE THE SINE WAVE LOOKUP TABLE
+	-- INSTANTIATE THE PHASE TO AMPLITUDE CONVERTER
 	-- --------------------------------------------------
-	SINE_LOOKUP : entity work.SINE_ROM
+	SINE_CALCULATION : entity work.PHASE_TO_AMPLITUDE_CONVERTER
 	port map(
 		CLK => CLK,
 		RST => RST,
-		ADDR_IN => PHASE(31 downto 22),
-		DATA_OUT => DATA
+		PHASE_IN => PHASE,
+		AMPLITUDE_OUT => AMPLITUDE
 	);
 	
 	-- --------------------------------------------------
@@ -99,7 +100,7 @@ begin
 	-- OUTOUT AMPLITUDE TO DAC
 	-- Also output top 8 bits to LEDs
 	-- --------------------------------------------------
-	DAC_OUT <= DATA when RST = '0' else X"0000";
+	DAC_OUT <= AMPLITUDE when RST = '0' else X"0000";
 	LED_OUT <= X"00";
 	
 	-- --------------------------------------------------
