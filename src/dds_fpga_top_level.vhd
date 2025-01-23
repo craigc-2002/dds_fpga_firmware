@@ -30,7 +30,9 @@ entity DDS_FPGA_TOP_LEVEL is
 	
 	DAC_CLK_OUT : out std_logic;
 	LED_OUT   : out std_logic_vector(7 downto 0);  -- outputs to the 8 LEDs on the Alchitry Cu board
-	DAC_OUT   : out std_logic_vector(15 downto 0) -- outputs to the DAC parallel data outputs
+	DAC_OUT   : out std_logic_vector(15 downto 0); -- outputs to the DAC parallel data outputs
+	DAC_SEL0_OUT : out std_logic; -- output to select segment shuffling mode on the DAC
+	DAC_XOR_OUT : out std_logic -- output to invert DAC input data
   );
 end entity;
 
@@ -108,5 +110,7 @@ begin
 	-- --------------------------------------------------
 	RST <= not(NRST);
 	DAC_CLK_OUT <= DAC_CLK;
+	DAC_SEL0_OUT <= '0';
+	DAC_XOR_OUT <= '0';
 
 end RTL;
