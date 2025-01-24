@@ -1,0 +1,3 @@
+The purpose of this is to test the accuracy of the DDS output values when a 16-bit sine lookup table and 16-bit gradient lookup table are used to interpolate the sine value. This is implemented using fixed point with 16 bit precision to give as close as possible to a bit-accurate simulation of the calculations performed in digital logic in the FPGA.
+
+The output values for each phase input value are saved to a CSV file as this allows them to be read in by another script to plot the results wthout having to reclculate every value, as a 26 bit accumulator is simulated, which takes a long time to run.
